@@ -1,0 +1,37 @@
+{
+  "name": "qg-api-service",
+  "engines": {
+    "npm": ">=8.0.0",
+    "node": ">=18.0.0"
+  },
+  "workspaces": [
+    "qg-api-service",
+    "yaku-client-lib",
+    "yaku-cli",
+    "e2e-tests",
+    "scale-run-test"
+  ],
+  "scripts": {
+    "build": "npx turbo run build --continue --cache-dir=.turbo",
+    "lint": "npx turbo run lint --cache-dir=.turbo",
+    "lint-staged": "npx lint-staged",
+    "prepare": "npx husky install",
+    "format": "npx turbo run format --cache-dir=.turbo",
+    "test:cov": "npx turbo run test:cov --cache-dir=.turbo"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^18.2.0",
+    "@commitlint/config-conventional": "^18.1.0",
+    "cpy-cli": "^5.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^12.5.0",
+    "madge": "^7.0.0",
+    "turbo": "^1.8.3"
+  },
+  "packageManager": "npm@8.19.2",
+  "lint-staged": {
+    "*.{ts,json,yml,yaml,md}": [
+      "prettier --write"
+    ]
+  }
+}
