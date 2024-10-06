@@ -32,6 +32,8 @@ program.option(
   }
 )
 
+program.allowExcessArguments(false)
+
 createAboutCommand(program)
 
 createInfoCommand(program)

@@ -1,10 +1,10 @@
-import assert from 'node:assert'
 import { Command, Option } from 'commander'
 import { ApiClient, Namespace } from '@B-S-F/yaku-client-lib'
 import {
   consoleErrorRed,
   consoleWarnYellow,
   handleRestApiError,
+  handleStandardParams,
   logResultAsJson,
   parseIntParameter,
 } from '../common.js'
@@ -28,7 +28,7 @@ export function createNamespacesSubcommands(program: Command): void {
     .description('List all namespaces visible for given user')
     .action(async () => {
       try {
-        assert(client, 'Client not defined, please check your configuration')
+        handleStandardParams(client)
         await logResultAsJson(client.getNamespaces())
       } catch (err) {
         handleRestApiError(err)
@@ -40,7 +40,7 @@ export function createNamespacesSubcommands(program: Command): void {
     .alias('select')
     .description('Switch to a different namespace')
     .action(async (namespaceId) => {
-      assert(client, 'Client not defined, please check your configuration')
+      handleStandardParams(client)
       let namespaces: Namespace[] = []
       try {
         namespaces = await client.getNamespaces()
@@ -86,7 +86,7 @@ export function createNamespacesSubcommands(program: Command): void {
     )
     .action(async (name: string, users: string[], options) => {
       try {
-        assert(client, 'Client not defined, please check your configuration')
+        handleStandardParams(client)
 
         if (users.length > 0) {
           consoleWarnYellow(`
@@ -114,7 +114,7 @@ export function createNamespacesSubcommands(program: Command): void {
     .argument('<id>', 'Id of the namespace to be shown')
     .action(async (id: string) => {
       try {
-        assert(client, 'Client not defined, please check your configuration')
+        handleStandardParams(client)
         const ns = parseIntParameter(id, 'id')
         await logResultAsJson(client.getNamespace(ns))
       } catch (err) {
@@ -145,7 +145,7 @@ export function createNamespacesSubcommands(program: Command): void {
     )
     .action(async (id: string, options) => {
       try {
-        assert(client, 'Client not defined, please check your configuration')
+        handleStandardParams(client)
         const ns = parseIntParameter(id, 'id')
 
         if (options.users !== undefined) {

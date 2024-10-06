@@ -103,6 +103,17 @@ describe('Integration tests for info', async () => {
     expect(result.stderr).toEqual('')
     expect(stdoutObject).toEqual(expectedData)
   })
+
+  it('should fail to call the info command for extra arguments ', async () => {
+    const result: RunProcessResult = await cmdManager.runCommand('info a b c')
+    const expectedMessage =
+      "too many arguments for 'info'. Expected 0 arguments but got 3."
+
+    expect(result.stdout).toEqual('')
+    expect(result.exitCode).toEqual(1)
+    expect(result.stderr).toContain(expectedMessage)
+  })
+
   it('shows help for the info command', async () => {
     const result: RunProcessResult = await cmdManager.runCommand('info -h')
 

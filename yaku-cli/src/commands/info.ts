@@ -1,6 +1,5 @@
-import assert from 'node:assert'
 import { Command } from 'commander'
-import { handleRestApiError } from '../common.js'
+import { handleRestApiError, handleStandardParams } from '../common.js'
 import { ApiClient } from '@B-S-F/yaku-client-lib'
 import { connect } from '../connect.js'
 
@@ -13,7 +12,7 @@ export function createInfoCommand(program: Command) {
     .option('--only <name>', 'Get only the specified info')
     .action(async (options) => {
       try {
-        assert(client, 'Client not defined, please check your configuration')
+        handleStandardParams(client)
         const info = await client.getServiceInfo()
         if (options.only && options.only in info) {
           console.log((info as any)[options.only])

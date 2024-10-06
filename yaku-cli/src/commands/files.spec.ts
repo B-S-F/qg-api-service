@@ -113,14 +113,10 @@ describe('add()', () => {
 
 describe('update()', () => {
   let replaceFileInConfigSpy: any
-  let consoleWarnSpy: SpiedFunction
   beforeEach(() => {
     replaceFileInConfigSpy = jest
       .spyOn(ApiClient.prototype, 'replaceFileInConfig')
       .mockReturnValue(Promise.resolve())
-    consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {
-      return
-    })
   })
   afterEach(() => {
     jest.restoreAllMocks()
@@ -135,7 +131,6 @@ describe('update()', () => {
       'filepath',
       'filename'
     )
-    expect(consoleWarnSpy).toHaveBeenCalled()
   })
   it('should call ApiClient.replaceFileInConfig() without options', async () => {
     await update(testApiClient, testNamespace, '1', 'filepath', {})
@@ -145,7 +140,6 @@ describe('update()', () => {
       'filepath',
       'filepath'
     )
-    expect(consoleWarnSpy).toHaveBeenCalled()
   })
 })
 
@@ -610,6 +604,24 @@ describe('extractEnvironment()', () => {
       expect(consoleErrorSpy).toHaveBeenCalledWith(chalk.red(errorMsg))
     }
   )
+  it('should not modify the source environments list in the process', () => {
+    const originalSrcEnvs = [env1, env2]
+    const clonedSrcEnvs = structuredClone(originalSrcEnvs)
+    const result1: Environment = extractEnvironment(
+      undefined,
+      77,
+      originalSrcEnvs
+    )
+    const result2: Environment = extractEnvironment(
+      undefined,
+      99,
+      originalSrcEnvs
+    )
+
+    expect(result1.namespace).toBe(77)
+    expect(result2.namespace).toBe(99)
+    expect(originalSrcEnvs).toEqual(clonedSrcEnvs)
+  })
 })
 
 describe('extractSecretsList()', () => {

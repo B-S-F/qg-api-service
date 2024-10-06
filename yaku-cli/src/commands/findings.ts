@@ -8,7 +8,6 @@ import {
   parseIntParameter,
 } from '../common.js'
 import { connect } from '../connect.js'
-import assert from 'assert'
 
 export function createFindingsSubcommands(program: Command): void {
   let client: ApiClient
@@ -37,14 +36,7 @@ export function createFindingsSubcommands(program: Command): void {
     )
     .action(async (configIds: string, page: string, options) => {
       try {
-        assert(client, 'Client not defined, please check your configuration')
-        assert(
-          namespace,
-          'Namespace not defined, please check your configuration'
-        )
-
-        // calling assert in function throws warning that client is possibly undefined
-        // handleStandardParams(client, namespace)
+        handleStandardParams(client, namespace)
         const pg = page ? parseIntParameter(page, 'page') : 1
         const ic = options.itemCount
           ? parseIntParameter(options.itemCount, 'itemCount')

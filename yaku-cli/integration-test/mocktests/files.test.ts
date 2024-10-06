@@ -208,8 +208,6 @@ describe('Integration tests for files commands', async () => {
           'patch'
         )
 
-      const expectedErr =
-        "This command has been recently updated. <filename> is no longer an argument, but an option. Run the command with the '--help' option for more details\n"
       const expectedStdout = `File ${testingFilename} replaced\n`
       const undiciRegex = /[0-9]{12}/g
       const expectedFormData =
@@ -220,7 +218,7 @@ describe('Integration tests for files commands', async () => {
         '------formdata-undici-000000000000--'
 
       expect(result.exitCode).toEqual(0)
-      expect(result.stderr).toEqual(expectedErr)
+      expect(result.stderr).toEqual('')
       expect(result.stdout).toEqual(expectedStdout)
       expect(receivedRequests?.length).toBe(1)
       expect(receivedRequests![0].headers['content-type']).toContain(

@@ -180,6 +180,19 @@ describe('Integration tests for secrets', async () => {
       expect(stdoutArray).toEqual(expectedMessage)
       expect(result.stderr).toEqual('')
     })
+
+    it('should fail to list secrets with extra arguments', async () => {
+      const result: RunProcessResult = await cmdManager.runCommand(
+        'secrets list a b c '
+      )
+
+      const expectedMessage: string[] = [
+        "too many arguments for 'list'. Expected 1 argument but got 4.",
+      ]
+
+      expect(result.stdout).toEqual('')
+      expect(result.stderr).toContain(expectedMessage)
+    })
   })
 
   describe('Secrets create', async () => {
@@ -197,7 +210,7 @@ describe('Integration tests for secrets', async () => {
 
     it('should create a secret', async () => {
       const command =
-        'secrets create TEMP_SEC --secret "some-value" "some secret"'
+        'secrets create TEMP_SEC --secret "some-value" "some-secret"'
 
       const result = await cmdManager.runCommand(command)
 
@@ -216,7 +229,7 @@ describe('Integration tests for secrets', async () => {
 
     it('should fail to create a secret with invalid name', async () => {
       const command =
-        'secrets create temp_sec --secret "some-value" "some other secret"'
+        'secrets create temp_sec --secret "some-value" "some-other-secret"'
 
       const result: RunProcessResult = await cmdManager.runCommand(command)
 
@@ -280,7 +293,7 @@ describe('Integration tests for secrets', async () => {
 
     it('should update a secret', async () => {
       const command =
-        'secrets update TEMP_SEC --secret some-val "some updated description"'
+        'secrets update TEMP_SEC --secret some-val "some-updated-description"'
 
       const result: RunProcessResult = await cmdManager.runCommand(command)
 

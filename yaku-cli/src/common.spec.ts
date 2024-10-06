@@ -150,6 +150,7 @@ describe('Common functions of client lib', () => {
       const client: any = { baseUrl: 'Dummy', token: 'Dummy' }
       const namespace = 1
       expect(handleStandardParams(client, namespace)).toBe(0)
+      expect(handleStandardParams(client)).toBe(0)
     })
 
     it.each([
