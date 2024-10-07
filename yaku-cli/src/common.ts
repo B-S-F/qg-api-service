@@ -64,13 +64,14 @@ export function handleRestApiError(err: any, fatal = true) {
 
 export function handleStandardParams(
   client: ApiClient | undefined,
-  namespace: number | undefined,
+  namespace?: number | undefined,
   id?: string,
   name?: string
 ): number {
   assert(client, 'Client not defined, please check your configuration')
-  assert(namespace, 'Namespace not defined, please check your configuration')
-
+  if (arguments.length > 1) {
+    assert(namespace, 'Namespace not defined, please check your configuration')
+  }
   return id && name ? parseIntParameter(id, name) : 0
 }
 

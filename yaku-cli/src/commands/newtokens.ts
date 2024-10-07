@@ -1,10 +1,10 @@
-import assert from 'node:assert'
 import { Command } from 'commander'
 import { connect } from '../connect.js'
 
 import { ApiClient } from '@B-S-F/yaku-client-lib'
 import {
   handleRestApiError,
+  handleStandardParams,
   logResultAsJson,
   logSuccess,
   parseIntParameter,
@@ -21,7 +21,7 @@ export function createNewTokensSubcommands(program: Command): void {
     .description('List your tokens')
     .action(async () => {
       try {
-        assert(client, 'Client not defined, please check your configuration')
+        handleStandardParams(client)
         await logResultAsJson(client.listNewTokens())
       } catch (err) {
         handleRestApiError(err)
@@ -38,7 +38,7 @@ export function createNewTokensSubcommands(program: Command): void {
     )
     .action(async (description: string) => {
       try {
-        assert(client, 'Client not defined, please check your configuration')
+        handleStandardParams(client)
         await logResultAsJson(client.createNewToken(description))
       } catch (err) {
         handleRestApiError(err)
@@ -51,7 +51,7 @@ export function createNewTokensSubcommands(program: Command): void {
     .argument('<id>', 'Id of the token to be deleted')
     .action(async (id: string) => {
       try {
-        assert(client, 'Client not defined, please check your configuration')
+        handleStandardParams(client)
         const tokenId = parseIntParameter(id, 'id')
         await logSuccess(
           client.revokeNewToken(tokenId),

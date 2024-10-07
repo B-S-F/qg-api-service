@@ -254,10 +254,6 @@ async function update(
   const cf = handleStandardParams(client, namespace, configId, 'configId')
   const filename = options.filename ?? path.parse(filepath).base
 
-  consoleWarnYellow(
-    `This command has been recently updated. <filename> is no longer an argument, but an option. Run the command with the '--help' option for more details`
-  )
-
   await logSuccess(
     client!.replaceFileInConfig(namespace!, cf, filepath, filename),
     `File ${filename} replaced`
@@ -554,7 +550,7 @@ function extractEnvironment(
   let resultEnv: Environment | undefined
   for (const env of envs) {
     if ((!envName && env.current) || envName === env.name) {
-      resultEnv = env
+      resultEnv = structuredClone(env)
       if (namespaceId) {
         // use custom namespaceId when available (without updating in .yakurc file)
         resultEnv.namespace = namespaceId

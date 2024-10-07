@@ -2,7 +2,6 @@
   "name": "@B-S-F/yaku-cli",
   "version": "0.58.0",
   "description": "A CLI for the yaku API using the yaku client lib",
-  "private": true,
   "license": "UNLICENSED",
   "engines": {
     "npm": ">=9.3.0",
